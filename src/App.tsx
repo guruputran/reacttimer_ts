@@ -1,26 +1,40 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react'; 
+import "bootstrap/dist/css/bootstrap.css"; // Import precompiled Bootstrap css
+import styled from 'styled-components';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+type ClockState = {
+  time: Date
 }
 
-export default App;
+const StyledDiv = styled.div`
+font-family: Roboto-Bold;
+font-size: 84px;
+color: #37474F;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+text-align: center;
+min-height: 100vh;
+`;
+
+export default class App extends Component<{}, ClockState> {
+
+  tick() {
+    this.setState({
+      time: new Date()
+    });
+  }
+
+  componentWillMount() {
+    this.tick();
+  }
+
+  componentDidMount() {
+    setInterval(() => this.tick(), 1000);
+  }
+
+  render() {
+    return <StyledDiv>{this.state.time.toLocaleTimeString()}</StyledDiv>
+  }
+}
